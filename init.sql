@@ -1,0 +1,1 @@
+CREATE DATABASE example_db if not exists;
