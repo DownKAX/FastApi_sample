@@ -1,9 +1,6 @@
 from app.repositories.base_repository import Repository
 
-from app.database.models import Example, ExampleItems
+from app.database.models import Users
 
-class ExampleRepository(Repository):
-    model = Example
-
-class ItemExampleRepository(Repository):
-    model = ExampleItems
+class UserRepository(Repository):
+    model = Users

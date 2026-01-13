@@ -2,12 +2,16 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     SECRET_KEY: str
+    FINGERPRINT_SECRET: str
     ALGORITHM: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     DB_HOST: str
     DB_PORT: str
     POSTGRES_DB: str
+    ACCESS_TOKEN_EXPIRATION: int
+    REFRESH_TOKEN_EXPIRATION: int
+    REDIS_HOST: str
 
     @property
     def DATABASE_URL(self):

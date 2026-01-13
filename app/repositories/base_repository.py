@@ -32,6 +32,11 @@ class Repository(AbstractRepository):
         result = await self.session.execute(query)
         return result.scalar_one()
 
+    async def find_one(self, **filters):
+        query = select(self.model).filter_by(**filters)
+        result = await self.session.execute(query)
+        return result.scalar_one()
+
     async def get_all_data(self):
         query = select(self.model)
         result = await self.session.execute(query)
