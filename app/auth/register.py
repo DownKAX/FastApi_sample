@@ -39,7 +39,7 @@ async def check_token(request: Request, response: Response) -> dict:
     return payload
 
 @auth.post('/new_tokens')
-async def update_tokens(request: Request, response: Response):
+async def update_tokens(request: Request, response: Response) -> Tokens:
     tokens: Tokens = await get_jwt_tokens(request)
     hashed_refresh_token = hashlib.sha256(tokens.refresh_token.encode()).hexdigest()
     data_from_redis: dict = await get_data_from_redis(hashed_refresh_token)

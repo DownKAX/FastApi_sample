@@ -1,5 +1,4 @@
-import json
-import hashlib, hmac, os
+import hashlib, hmac
 
 from app.auth.models import RefreshData
 from app.core.settings import settings
@@ -19,8 +18,6 @@ async def add_session(session: RefreshData):
 
 async def get_data_from_redis(client_hashed_refresh_token: str) -> dict:
     r = await get_async_redis()
-
     data: dict = await r.hgetall(client_hashed_refresh_token)
-
-    return {"fingerprint": data['fingerprint'].decode(), "username": data['username']}
+    return {"fingerprint": data['fingerprint'], "username": data['username']}
 

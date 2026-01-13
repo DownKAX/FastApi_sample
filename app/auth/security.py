@@ -1,3 +1,6 @@
+import hashlib
+import hmac
+
 import jwt
 import secrets
 
@@ -12,7 +15,7 @@ from app.auth.redis_repository import add_session
 
 
 async def create_access_token(username: str):
-    data = {"username": username, "exp": datetime.now(UTC) + timedelta(hours=settings.ACCESS_TOKEN_EXPIRATION)}
+    data = {"username": username, "exp": datetime.now(UTC) + timedelta(seconds=settings.ACCESS_TOKEN_EXPIRATION)}
     token = jwt.encode(data, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return token
 
@@ -47,8 +50,11 @@ async def validate_access_token(token: str) -> dict:
         raise InvalidAccessToken
 
 async def check_session(request, fingerprint_from_redis: str):
-    user_fingerprint = request.cookies.get("fingerprint")
-    if user_fingerprint != fingerprint_from_redis:
+    user_fingerprint = hmac.new(
+        settings.FINGERPRINT_SECRET.encode(),
+        request.cookies.get("fingerprint").encode(),
+        hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(fingerprint_from_redis, user_fingerprint):
         raise UserCompromisation()
 
 async def set_jwt_tokens(tokens: Tokens, response: Response):
@@ -72,4 +78,4 @@ async def verification_stamp(username: str, response: Response):
     await set_jwt_tokens(tokens=Tokens(access_token=access_token, refresh_token=session.refresh_token), response=response)
 
     await add_session(session)
-    return Tokens
+    return Tokens(access_token=access_token, refresh_token=session.refresh_token)
