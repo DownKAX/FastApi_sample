@@ -9,13 +9,12 @@ from datetime import timedelta, datetime, UTC
 
 from app.core.settings import settings
 from app.auth.models import RefreshData, Tokens
-from app.auth.exceptions import TokenNotFound, InvalidAccessToken, ExpiredAccessToken, InvalidRefreshToken, \
-    ExpiredRefreshToken, UserCompromisation
+from app.auth.exceptions import TokenNotFound, InvalidAccessToken, ExpiredAccessToken, UserCompromisation
 from app.auth.redis_repository import add_session
 
 
 async def create_access_token(username: str):
-    data = {"username": username, "exp": datetime.now(UTC) + timedelta(seconds=settings.ACCESS_TOKEN_EXPIRATION)}
+    data = {"username": username, "exp": datetime.now(UTC) + timedelta(hours=settings.ACCESS_TOKEN_EXPIRATION)}
     token = jwt.encode(data, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return token
 
