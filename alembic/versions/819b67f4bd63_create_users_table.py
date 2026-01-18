@@ -27,8 +27,8 @@ def upgrade() -> None:
     sa.Column('password', sa.String(), nullable=False),
     sa.Column('register_time', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('username')
-    )
+    sa.UniqueConstraint('username'),
+                    if_not_exists=True)
     # ### end Alembic commands ###
 
 

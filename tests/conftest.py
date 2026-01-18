@@ -1,14 +1,18 @@
+from dotenv import load_dotenv
+load_dotenv(".env.test", override=True)
+
 import asyncio
 from typing import AsyncGenerator
 
 import pytest
+import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 
 from app.core.settings import settings
 from app.database.db import get_session
 from app.database.models import Base
-from app.main import app
+from main import app
 
 engine_test = create_async_engine(settings.DATABASE_URL, poolclass=NullPool)
 async_session_maker = async_sessionmaker(
@@ -21,7 +25,7 @@ async def override_get_async_session() -> AsyncGenerator[AsyncSession, None]:
 
 app.dependency_overrides[get_session] = override_get_async_session
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest_asyncio.fixture(autouse=True, scope="session")
 async def prepare_database():
     async with engine_test.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

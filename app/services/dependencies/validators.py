@@ -1,4 +1,4 @@
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, NoResultFound
 from fastapi import HTTPException
 
 def common_validation(FuncException, e_code):
@@ -11,4 +11,4 @@ def common_validation(FuncException, e_code):
     return wrapper
 
 unique_validation = common_validation(IntegrityError, e_code=409)
-exists_validation = common_validation(TypeError, e_code=204)
+exists_validation = common_validation(NoResultFound, e_code=401)
