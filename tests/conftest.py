@@ -14,6 +14,7 @@ from app.database.db import get_session
 from app.database.models import Base
 from main import app
 
+
 engine_test = create_async_engine(settings.DATABASE_URL, poolclass=NullPool)
 async_session_maker = async_sessionmaker(
     engine_test, class_=AsyncSession, expire_on_commit=False

@@ -13,3 +13,4 @@ venv
 .Python
 .pytest_cache
 .git/
+tests/conftest.py

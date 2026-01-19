@@ -1,9 +1,12 @@
 services:
   api:
-    image: "example_app_api:latest"
+    image: "auth_ready:latest"
     container_name: example_app_api
     env_file:
       - .env
+    environment:
+      - REDIS_HOST=redis
+      - DB_HOST=postgres
     ports:
       - "80:80"
     depends_on:
@@ -24,6 +27,14 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data_auth:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   redis:
     image: "redis:alpine"
