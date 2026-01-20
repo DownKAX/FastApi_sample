@@ -23,6 +23,7 @@ config.set_section_option(section, "DB_HOST", settings.DB_HOST)
 config.set_section_option(section, "DB_PORT", settings.DB_PORT)
 config.set_section_option(section, "DB_USER", settings.POSTGRES_USER)
 config.set_section_option(section, "DB_NAME", settings.POSTGRES_DB)
+config.set_section_option(section, "DB_NAME_TEST", settings.POSTGRES_DB_TEST)
 config.set_section_option(section, "DB_PASS", settings.POSTGRES_PASSWORD)
 
 # Interpret the config file for Python logging.

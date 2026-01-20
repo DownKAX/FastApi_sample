@@ -1,6 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv(".env.test", override=True)
-
 import asyncio
 from typing import AsyncGenerator
 
@@ -15,7 +12,7 @@ from app.database.models import Base
 from main import app
 
 
-engine_test = create_async_engine(settings.DATABASE_URL, poolclass=NullPool)
+engine_test = create_async_engine(settings.TEST_DATABASE_URL, poolclass=NullPool)
 async_session_maker = async_sessionmaker(
     engine_test, class_=AsyncSession, expire_on_commit=False
 )

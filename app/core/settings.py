@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: str
     POSTGRES_DB: str
+    POSTGRES_DB_TEST: str
     ACCESS_TOKEN_EXPIRATION: int
     REFRESH_TOKEN_EXPIRATION: int
     REDIS_HOST: str
@@ -17,8 +18,13 @@ class Settings(BaseSettings):
     def DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}"
 
+    @property
+    def TEST_DATABASE_URL(self):
+        return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB_TEST}"
+
+
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file='.env',
         env_file_encoding="utf-8",
         extra='ignore'
     )
