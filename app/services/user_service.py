@@ -44,8 +44,6 @@ class UserService:
             await self.uow.commit()
             return result
 
-    # colum_and_value - колонка и значение, которые используются для поиска записи в бд, которую будем изменять
-    # values - Словарь {"название столбца": новое значение} - станут новыми для записи в бд
     async def update_one_user(self, column_and_value: ColumnValue, values: dict) -> User:
         async with self.uow:
             result = await unique_validation(self.uow.user_model.update_one, column_and_value, values,
