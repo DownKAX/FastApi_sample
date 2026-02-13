@@ -5,3 +5,4 @@ Base = declarative_base()
 
 class Users(Base):
   __tablename__ = 'blank'
+
